@@ -4,7 +4,7 @@ Contains the Base class for the AirBnB clone console.
 """
 
 import uuid
-import datetime
+from datetime import datetime
 
 class BaseModel:
     """Class for base model of object hierarchy."""
@@ -35,3 +35,4 @@ class BaseModel:
         my_dict["__class__"] = type(self).__name__
         my_dict["created_at"] = my_dict["created_at"].isoformat()
         my_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        return my_dict
