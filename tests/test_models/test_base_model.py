@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Unittest module for the BaseModel Class."""
 
 import unittest
@@ -42,3 +42,13 @@ class TestBaseModel(unittest.TestCase):
         b = Base()
         d = b.to_dict()
         """How to test for random values like id and dates?"""
+
+    def test_4_instantiation(self):
+        """Tests instantiation with **kwargs."""
+
+        my_model = BaseModel()
+        my_model.name = "Holberton"
+        my_model.my_number = 89
+        my_model_json = my_model.to_dict()
+        my_new_model = BaseModel(**my_model_json)
+        """Test for dict equality?"""
