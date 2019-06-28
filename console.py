@@ -6,7 +6,9 @@ import inspect
 from models.base_model import BaseModel
 from models import storage
 
+
 class HBNBCommand(cmd.Cmd):
+
     """Class for the command interpreter."""
 
     prompt = "(hbnb) "
@@ -76,7 +78,6 @@ class HBNBCommand(cmd.Cmd):
                     del storage.all()[key]
                     storage.save()
 
-
     def do_all(self, line):
         """Prints all string representation of\
         all instances based or not on the class name.
@@ -96,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             words = line.split(' ')
-            if words[0] not in storage.classes(): 
+            if words[0] not in storage.classes():
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")

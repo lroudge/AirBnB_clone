@@ -3,7 +3,9 @@
 import os
 import json
 
+
 class FileStorage:
+
     """Class for serializtion and deserialization of base classes."""
     __file_path = "file.json"
     __objects = {}
@@ -28,7 +30,7 @@ class FileStorage:
     def classes(self):
         """Returns a dictionary of valid classes and their references."""
         from models.base_model import BaseModel
-        classes = {"BaseModel" : BaseModel}
+        classes = {"BaseModel": BaseModel}
         return classes
 
     def reload(self):
@@ -37,6 +39,7 @@ class FileStorage:
             return
         with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
             obj_dict = json.load(f)
-            obj_dict = {k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()}
+            obj_dict = {k: self.classes()[v["__class__"]](**v)
+                        for k, v in obj_dict.items()}
             # TODO: should this overwrite or insert?
             FileStorage.__objects = obj_dict
