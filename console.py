@@ -4,7 +4,7 @@
 import cmd
 import inspect
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """Class for the command interpreter."""
@@ -28,11 +28,11 @@ class HBNBCommand(cmd.Cmd):
         """Creates an instance."""
         if line == "" or line is None:
             print("** class name missing **")
-        elif line != "BaseModel":
-        # TODO : find a not BF way to check if class exists
+        elif line not in storage.classes():
             print("** class doesn't exist **")
         else:
             b = BaseModel()
+            b.save()
             print(b.id)
 
     def do_show(self, line):
@@ -42,17 +42,16 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             words = line.split(' ')
-            if words[0] != "BaseModel":
-            # TODO : find a not BF way to check if class exists
+            if words[0] not in storage.classes():
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")
             else:
                 key = "{}.{}".format(words[0], words[1])
-                if not key in FileStorage._FileStorage__objects:
+                if key not in storage.all():
                     print("** no instance found **")
                 else:
-                    print(FileStorage._FileStorage__objects[key])
+                    print(storage.all()[key])
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id."""
@@ -60,18 +59,17 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             words = line.split(' ')
-            if words[0] != "BaseModel":
-            # TODO : find a not BF way to check if class exists
+            if words[0] not in storage.classes():
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")
             else:
                 key = "{}.{}".format(words[0], words[1])
-                if not key in FileStorage._FileStorage__objects:
+                if key not in storage.all():
                     print("** no instance found **")
                 else:
-                    FileStorage._FileStorage__objects[key].save()
-                    del FileStorage._FileStorage__objects[key]
+                    del storage.all()[key]
+                    storage.save()
 
 
     def do_all(self, line):
@@ -79,11 +77,10 @@ class HBNBCommand(cmd.Cmd):
         all instances based or not on the class name."""
         if line != "":
             words = line.split(' ')
-            if words[0] != "BaseModel":
-            # TODO : find a not BF way to check if class exists
+            if words[0] not in storage.classes():
                 print("** class doesn't exist **")
-        for k in FileStorage._FileStorage__objects:
-            print(FileStorage._FileStorage__objects[k])
+        for k in storage.all():
+            print(storage.all()[k])
 
     def do_update(self, line):
         """Updates an instance based on the class
@@ -92,8 +89,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             words = line.split(' ')
-            if words[0] != "BaseModel":
-            # TODO : find a not BF way to check if class exists
+            if words[0] not in storage.classes(): 
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")
@@ -103,10 +99,10 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
             else:
                 key = "{}.{}".format(words[0], words[1])
-                if not key in FileStorage._FileStorage__objects:
+                if key not in storage.all():
                     print("** no instance found **")
                 else:
-                    setattr(FileStorage._FileStorage__objects[key], words[2], words[3])
+                    setattr(storage.all()[key], words[2], words[3])
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

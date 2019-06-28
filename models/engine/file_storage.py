@@ -25,14 +25,18 @@ class FileStorage:
             d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
             json.dump(d, f)
 
+    def classes(self):
+        """Returns a dictionary of valid classes and their references."""
+        from models.base_model import BaseModel
+        classes = {"BaseModel" : BaseModel}
+        return classes
+
     def reload(self):
         """Deserializes JSON file into __objects."""
-        from models.base_model import BaseModel
         if not os.path.isfile(FileStorage.__file_path):
             return
-        classes = {"BaseModel" : BaseModel}
         with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
             obj_dict = json.load(f)
-            obj_dict = {k: classes[v["__class__"]](**v) for k, v in obj_dict.items()}
+            obj_dict = {k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()}
             # TODO: should this overwrite or insert?
             FileStorage.__objects = obj_dict
