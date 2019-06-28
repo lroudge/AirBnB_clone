@@ -33,9 +33,9 @@ class TestBaseModel(unittest.TestCase):
         date_now = datetime.now()
         b = BaseModel()
         diff = b.updated_at - b.created_at
-        self.assertTrue(diff.total_seconds() < abs(0.01))
+        self.assertTrue(abs(diff.total_seconds()) < 0.01)
         diff = b.created_at - date_now
-        self.assertTrue(diff.total_seconds() < abs(0.1))
+        self.assertTrue(abs(diff.total_seconds()) < 0.1)
 
     def test_3_id(self):
         """Tests for unique user ids."""
@@ -54,7 +54,7 @@ class TestBaseModel(unittest.TestCase):
         date_now = datetime.now()
         b.save()
         diff = b.updated_at - date_now
-        self.assertTrue(diff.total_seconds() < abs(0.01))
+        self.assertTrue(abs(diff.total_seconds()) < 0.01)
 
     def test_3_str(self):
         """Tests for __str__ method."""
