@@ -114,5 +114,6 @@ class TestFileStorage(unittest.TestCase):
         storage.reload()
         self.assertNotEqual(b.to_dict(), storage.all()[key].to_dict())
 
+
 if __name__ == '__main__':
     unittest.main()
