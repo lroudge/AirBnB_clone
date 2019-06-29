@@ -111,6 +111,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                 else:
                     setattr(storage.all()[key], words[2], words[3])
+                    storage.all()[key].save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

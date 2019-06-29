@@ -1,0 +1,52 @@
+#!/usr/bin/python3
+"""Unittest module for the Review Class."""
+
+import unittest
+from datetime import datetime
+import time
+from models.review import Review
+import re
+import json
+from models.engine.file_storage import FileStorage
+import os
+
+
+class TestReview(unittest.TestCase):
+
+    """Test Cases for the Review class."""
+
+    def setUp(self):
+        """Sets up test methods."""
+        pass
+
+    def tearDown(self):
+        """Tears down test methods."""
+        pass
+
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        # TODO: should this reference the class attribute differently?
+        # such as: storage.__class__.MANGLED_ATTR
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
+
+    def test_8_instantiation(self):
+        """Tests instantiation of Review class."""
+
+        b = Review()
+        self.assertEqual(str(type(b)), "<class 'models.review.Review'>")
+        self.assertIsInstance(b, Review)
+        self.assertTrue(issubclass(type(b), Review))
+
+    def test_8_attributes(self):
+        """Tests the attributes of Review class."""
+        attributes = {"place_id": str,
+                      "user_id": str,
+                      "text": str}
+        o = Review()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
+
+  
