@@ -31,10 +31,23 @@ class TestUser(unittest.TestCase):
         if os.path.isfile(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
-    def test_3_instantiation(self):
+    def test_8_instantiation(self):
         """Tests instantiation of User class."""
 
         b = User()
         self.assertEqual(str(type(b)), "<class 'models.user.User'>")
         self.assertIsInstance(b, User)
         self.assertTrue(issubclass(type(b), User))
+
+    def test_8_attributes(self):
+        """Tests the attributes of User class."""
+        attributes = {"email": str,
+                      "password": str,
+                      "first_name": str,
+                      "last_name": str}
+        o = User()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
+
+  
