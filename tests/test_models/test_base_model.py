@@ -7,6 +7,8 @@ import time
 from models.base_model import BaseModel
 import re
 import json
+from models.engine.file_storage import FileStorage
+import os
 
 
 class TestBaseModel(unittest.TestCase):
@@ -20,6 +22,14 @@ class TestBaseModel(unittest.TestCase):
     def tearDown(self):
         """Tears down test methods."""
         pass
+
+    def resetStorage(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        # TODO: should this reference the class attribute differently?
+        # such as: storage.__class__.MANGLED_ATTR
+        if os.path.isfile(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
     def test_3_instantiation(self):
         """Tests instantiation of BaseModel class."""
@@ -94,3 +104,19 @@ class TestBaseModel(unittest.TestCase):
         my_model_json = my_model.to_dict()
         my_new_model = BaseModel(**my_model_json)
         self.assertEqual(my_new_model.to_dict(), my_model.to_dict())
+
+    def test_5_save(self):
+        """Tests that storage.save() is called from save()."""
+        self.resetStorage()
+        b = BaseModel()
+        b.save()
+        key = "{}.{}".format(type(b).__name__, b.id)
+        d = {key: b.to_dict()}
+        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
+        with open(FileStorage._FileStorage__file_path, "r", encoding="utf-8") as f:
+            self.assertEqual(len(f.read()), len(json.dumps(d)))
+            f.seek(0)
+            self.assertEqual(json.load(f), d)
+
+if __name__ == '__main__':
+    unittest.main()
