@@ -1,4 +1,4 @@
-*-main
+*-main.py
 __pycache__/
 *.pyc
 *.swp
