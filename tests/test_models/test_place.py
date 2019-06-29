@@ -9,6 +9,7 @@ import re
 import json
 from models.engine.file_storage import FileStorage
 import os
+from models import storage
 
 
 class TestPlace(unittest.TestCase):
@@ -41,17 +42,7 @@ class TestPlace(unittest.TestCase):
 
     def test_8_attributes(self):
         """Tests the attributes of Place class."""
-        attributes = {"city_id": str,
-                      "user_id": str,
-                      "name": str,
-                      "description": str,
-                      "number_rooms": int,
-                      "number_bathrooms": int,
-                      "max_guest": int,
-                      "price_by_night": int,
-                      "latitude": float,
-                      "longitude": float,
-                      "amenity_ids": list}
+        attributes = storage.attributes()["Place"]
         o = Place()
         for k, v in attributes.items():
             self.assertTrue(hasattr(o, k))

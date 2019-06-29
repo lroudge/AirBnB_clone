@@ -9,6 +9,7 @@ import re
 import json
 from models.engine.file_storage import FileStorage
 import os
+from models import storage
 
 
 class TestUser(unittest.TestCase):
@@ -41,10 +42,7 @@ class TestUser(unittest.TestCase):
 
     def test_8_attributes(self):
         """Tests the attributes of User class."""
-        attributes = {"email": str,
-                      "password": str,
-                      "first_name": str,
-                      "last_name": str}
+        attributes = storage.attributes()["User"]
         o = User()
         for k, v in attributes.items():
             self.assertTrue(hasattr(o, k))
