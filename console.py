@@ -5,6 +5,7 @@ import cmd
 import inspect
 from models.base_model import BaseModel
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -86,8 +87,13 @@ class HBNBCommand(cmd.Cmd):
             words = line.split(' ')
             if words[0] not in storage.classes():
                 print("** class doesn't exist **")
-        for k in storage.all():
-            print(storage.all()[k])
+            else:
+                for key, obj in storage.all().items():
+                    if obj.__class__.__name__ == words[0]:
+                        print(obj)
+        else:
+            for key, obj in storage.all().items():
+                print(obj)
 
     def do_update(self, line):
         """Updates an instance based on the class\
@@ -95,23 +101,31 @@ class HBNBCommand(cmd.Cmd):
         """
         if line == "" or line is None:
             print("** class name missing **")
+            return
+
+        rex = '^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
+        match = re.search(rex, line)
+        if not match:
+            print("** class name missing **")
+        elif match.group(1) not in storage.classes():
+            print("** class doesn't exist **")
+        elif match.group(2) is None:
+            print("** instance id missing **")
+        elif match.group(3) is None:
+            print("** attribute name missing **")
+        elif match.group(4) is None:
+            print("** value missing **")
         else:
-            words = line.split(' ')
-            if words[0] not in storage.classes():
-                print("** class doesn't exist **")
-            elif len(words) < 2:
-                print("** instance id missing **")
-            elif len(words) < 3:
-                print("** attribute name missing **")
-            elif len(words) < 4:
-                print("** value missing **")
+            value = match.group(4).replace('"', '')
+            key = "{}.{}".format(match.group(1), match.group(2))
+            if key not in storage.all():
+                print("** no instance found **")
             else:
-                key = "{}.{}".format(words[0], words[1])
-                if key not in storage.all():
-                    print("** no instance found **")
-                else:
-                    setattr(storage.all()[key], words[2], words[3])
-                    storage.all()[key].save()
+                attributes = storage.attributes()[match.group(1)]
+                if match.group(3) in attributes:
+                    value = attributes[match.group(3)](value)
+                setattr(storage.all()[key], match.group(3), value)
+                storage.all()[key].save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
