@@ -14,6 +14,20 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
+
+    def custom_all(self, match):
+        """Custom all() commander."""
+        print("ALL()", match)
+
+    def precmd(self, line):
+        """Intercepts commands to test for class.syntax()"""
+        match = re.search("^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
+        if not match:
+            return line
+        command = match.group(2) + " " + match.group(1) + " " + match.group(3)
+        self.onecmd(command)
+        return ""
+
     def do_EOF(self, line):
         """Handles EOF."""
         print()
@@ -88,12 +102,12 @@ class HBNBCommand(cmd.Cmd):
             if words[0] not in storage.classes():
                 print("** class doesn't exist **")
             else:
-                for key, obj in storage.all().items():
-                    if obj.__class__.__name__ == words[0]:
-                        print(obj)
+                l = [str(obj) for key, obj in storage.all().items() \
+                     if type(obj).__name__ == words[0]]
+                print(l)
         else:
-            for key, obj in storage.all().items():
-                print(obj)
+                l = [str(obj) for key, obj in storage.all().items()]
+                print(l)
 
     def do_update(self, line):
         """Updates an instance based on the class\
