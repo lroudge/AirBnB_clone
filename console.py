@@ -14,17 +14,15 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
-
-    def custom_all(self, match):
-        """Custom all() commander."""
-        print("ALL()", match)
-
     def precmd(self, line):
         """Intercepts commands to test for class.syntax()"""
         match = re.search("^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
         if not match:
             return line
-        command = match.group(2) + " " + match.group(1) + " " + match.group(3)
+        classname = match.group(1)
+        method = match.group(2)
+        args = match.group(3)
+        command = method + " " + classname + " " + args
         self.onecmd(command)
         return ""
 
