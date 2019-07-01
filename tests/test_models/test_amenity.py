@@ -10,6 +10,7 @@ import json
 from models.engine.file_storage import FileStorage
 import os
 from models import storage
+from models.base_model import BaseModel
 
 
 class TestAmenity(unittest.TestCase):
@@ -38,7 +39,7 @@ class TestAmenity(unittest.TestCase):
         b = Amenity()
         self.assertEqual(str(type(b)), "<class 'models.amenity.Amenity'>")
         self.assertIsInstance(b, Amenity)
-        self.assertTrue(issubclass(type(b), Amenity))
+        self.assertTrue(issubclass(type(b), BaseModel))
 
     def test_8_attributes(self):
         """Tests the attributes of Amenity class."""
