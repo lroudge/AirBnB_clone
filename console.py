@@ -129,26 +129,30 @@ class HBNBCommand(cmd.Cmd):
 
         rex = '^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
         match = re.search(rex, line)
+        classname = match.group(1)
+        uid = match.group(2)
+        attribute = match.group(3)
+        value = match.group(4)
         if not match:
             print("** class name missing **")
-        elif match.group(1) not in storage.classes():
+        elif classname not in storage.classes():
             print("** class doesn't exist **")
-        elif match.group(2) is None:
+        elif uid is None:
             print("** instance id missing **")
-        elif match.group(3) is None:
-            print("** attribute name missing **")
-        elif match.group(4) is None:
-            print("** value missing **")
         else:
-            value = match.group(4).replace('"', '')
-            key = "{}.{}".format(match.group(1), match.group(2))
+            key = "{}.{}".format(classname, uid)
             if key not in storage.all():
                 print("** no instance found **")
+            elif attribute is None:
+                print("** attribute name missing **")
+            elif value is None:
+                print("** value missing **")
             else:
-                attributes = storage.attributes()[match.group(1)]
-                if match.group(3) in attributes:
-                    value = attributes[match.group(3)](value)
-                setattr(storage.all()[key], match.group(3), value)
+                value = value.replace('"', '')
+                attributes = storage.attributes()[classname]
+                if attribute in attributes:
+                    value = attributes[attribute](value)
+                setattr(storage.all()[key], attribute, value)
                 storage.all()[key].save()
 
 if __name__ == '__main__':
