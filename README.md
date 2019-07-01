@@ -110,3 +110,4 @@ The test for the classes are in the [test_models](./tests/test_models/) folder.
 ## Authors
 
 * **Arthur Damm** - [indigoarthur@gmail.com](https://github.com/arthurdamm)
+* **Laura Roudge** - [laura.derohan@gmail.com](https://github.com/lroudge)
