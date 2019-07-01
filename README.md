@@ -18,46 +18,64 @@ To run the console:
 ```./console.py```
 
 Quit the console:
-```bash
+```
 (hbnb) quit
 ```
 
 Display the help for a command:
-```bash
+```
 (hbnb) help <command>
 ```
 
 Create an object (prints its id):
-```bash
+```
 (hbnb) create <class>
 ```
 
 Show an object:
-```bash
+```
 (hbnb) show <class> <id>
--------------------------
+```
+or
+```
 (hbnb) <class>.show(<id>)
 ```
 
 Destroy an object:
-```bash
+```
 (hbnb) destroy <class> <id>
-----------------------------
+```
+or
+```
 (hbnb) <class>.destroy(<id>)
 ```
 
 Show all objects, or all instances of a class:
-```bash
+```
 (hbnb) all
-------------------
+```
+or
+```
 (hbnb) all <class>
 ```
 
 Update an attribute of an object:
-```bash
+```
 (hbnb) update <class> <id> <attribute name> "<attribute value>"
-------------------------------------------------------------------
+```
+or
+```
 (hbnb) <class>.update(<id>, <attribute name>, "<attribute value>")
+```
+
+Non-interactive mode example:
+```bash
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  all  count  create  destroy  help  quit  show  update
 ```
 
 ## Models
@@ -87,9 +105,8 @@ This allows the storage to be reloaded automatically at initialization, which re
 ## Tests
 
 All the code is tested with the **unittest** module.
-The test for the classes are in the [test_models}(./tests/tests_models) folder.
+The test for the classes are in the [test_models](./tests/tests_models) folder.
 
 ## Authors
 
 * **Arthur Damm** - [indigoarthur@gmail.com](https://github.com/arthurdamm)
-* **Laura Roudge** - [laura.derohan@gmail.com](https://github.com/lroudge)
