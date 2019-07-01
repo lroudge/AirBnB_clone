@@ -1,5 +1,7 @@
 # AirBnB clone - The console
 
+![Header picture](https://holbertonintranet.s3.amazonaws.com/uploads/medias/2018/6/65f4a1dd9c51265f49d0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUXW7JF5MT%2F20190701%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190701T034829Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=9edbbe6be6ce76e36e63553803827c66348be0c8e808e1cf0d5200ac1658ebcd)
+
 ## Description
 
 This team project is part of the Holberton School Full-Stack Software Engineer program.
