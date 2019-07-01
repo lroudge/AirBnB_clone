@@ -1,14 +1,16 @@
 #!/usr/bin/python3
 """Unittest module for the BaseModel Class."""
 
-import unittest
-from datetime import datetime
-import time
+from models import storage
 from models.base_model import BaseModel
-import re
-import json
 from models.engine.file_storage import FileStorage
+from datetime import datetime
+import json
 import os
+import re
+import time
+import unittest
+import uuid
 
 
 class TestBaseModel(unittest.TestCase):
@@ -57,6 +59,14 @@ class TestBaseModel(unittest.TestCase):
     def test_3_attributes(self):
         """Tests attributes value for instance of a BaseModel class."""
 
+        attributes = storage.attributes()["BaseModel"]
+        o = BaseModel()
+        for k, v in attributes.items():
+            self.assertTrue(hasattr(o, k))
+            self.assertEqual(type(getattr(o, k, None)), v)
+
+    def test_3_datetime_created(self):
+        """Tests if updated_at & created_at are current at creation."""
         date_now = datetime.now()
         b = BaseModel()
         diff = b.updated_at - b.created_at
@@ -126,8 +136,6 @@ class TestBaseModel(unittest.TestCase):
         msg = "to_dict() takes 1 positional argument but 2 were given"
         self.assertEqual(str(e.exception), msg)
 
-
-
     def test_4_instantiation(self):
         """Tests instantiation with **kwargs."""
 
@@ -137,6 +145,19 @@ class TestBaseModel(unittest.TestCase):
         my_model_json = my_model.to_dict()
         my_new_model = BaseModel(**my_model_json)
         self.assertEqual(my_new_model.to_dict(), my_model.to_dict())
+
+    def test_4_instantiation_dict(self):
+        """Tests instantiation with **kwargs from custom dict."""
+        d = {"__class__": "BaseModel",
+             "updated_at":
+             datetime(2050, 12, 30, 23, 59, 59, 123456).isoformat(),
+             "created_at": datetime.now().isoformat(),
+             "id": uuid.uuid4(),
+             "var": "foobar",
+             "int": 108,
+             "float": 3.14}
+        o = BaseModel(**d)
+        self.assertEqual(o.to_dict(), d)
 
     def test_5_save(self):
         """Tests that storage.save() is called from save()."""
