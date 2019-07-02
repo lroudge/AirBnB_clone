@@ -16,6 +16,7 @@ import re
 import json
 import os
 
+
 class TestHBNBCommand(unittest.TestCase):
     """Tests HBNBCommand console."""
 
@@ -43,7 +44,9 @@ class TestHBNBCommand(unittest.TestCase):
         """Returns that last <lines> of written to stdout."""
         if not lines:
             return self.mock_stdout.write.call_args[0][0]
-        return "".join([c[0][0] for c in self.mock_stdout.write.call_args_list[-lines:]])
+        return "".join([c[0][0]
+                        for c in self.mock_stdout.write.
+                        call_args_list[-lines:]])
 
     def test_help(self):
         """Tests the help command."""
@@ -170,7 +173,8 @@ EOF  all  count  create  destroy  help  quit  show  update
         f = io.StringIO()
         with redirect_stdout(f):
             self.assertFalse(cli.precmd("BaseModel.show(" + o.id + ")"))
-        # Might work on our code but not on the one the checker uses -> put onecmd back ?
+        # Might work on our code but not on the one the checker uses -> put
+        # onecmd back ?
         s = f.getvalue()
         self.assertTrue(len(s) > 0)
         self.help_test_dict(o, s)
@@ -223,7 +227,8 @@ EOF  all  count  create  destroy  help  quit  show  update
         f = io.StringIO()
         with redirect_stdout(f):
             self.assertFalse(cli.precmd("BaseModel.destroy(" + o.id + ")"))
-        # Might work on our code but not on the one the checker uses -> put onecmd back ?
+        # Might work on our code but not on the one the checker uses -> put
+        # onecmd back ?
         s = f.getvalue()
         self.assertTrue(len(s) == 0)
         self.assertFalse(key in storage.all())
@@ -243,7 +248,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         l = json.loads(s)
-        self.assertEqual(l, [str(v) for k,v in storage.all().items()])
+        self.assertEqual(l, [str(v) for k, v in storage.all().items()])
 
         f = io.StringIO()
         with redirect_stdout(f):
@@ -251,7 +256,9 @@ EOF  all  count  create  destroy  help  quit  show  update
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         l = json.loads(s)
-        self.assertEqual(l, [str(v) for k,v in storage.all().items() if type(v).__name__ == "City"])
+        self.assertEqual(
+            l, [str(v) for k, v in storage.all().items()
+                if type(v).__name__ == "City"])
 
     def test_do_all_error(self):
         """Tests all command with errors."""
@@ -275,7 +282,9 @@ EOF  all  count  create  destroy  help  quit  show  update
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         l = json.loads(s)
-        self.assertEqual(l, [str(v) for k,v in storage.all().items() if type(v).__name__ == "City"])
+        self.assertEqual(
+            l, [str(v) for k, v in storage.all().items()
+                if type(v).__name__ == "City"])
 
     def test_count_advanced(self):
         """Tests .count() command."""
