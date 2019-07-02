@@ -189,7 +189,7 @@ class HBNBCommand(cmd.Cmd):
             elif not value:
                 print("** value missing **")
             else:
-                cast = str
+                cast = None
                 if not re.search('^".*"$', value):
                     if '.' in value:
                         cast = float
@@ -200,8 +200,11 @@ class HBNBCommand(cmd.Cmd):
                 attributes = storage.attributes()[classname]
                 if attribute in attributes:
                     value = attributes[attribute](value)
-                else:
-                    value = cast(value)
+                elif cast:
+                    try:
+                        value = cast(value)
+                    except ValueError:
+                        pass # fine, stay a string then
                 setattr(storage.all()[key], attribute, value)
                 storage.all()[key].save()
 
