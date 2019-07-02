@@ -2,7 +2,6 @@
 """Module for the entry point of the command interpreter."""
 
 import cmd
-import inspect
 from models.base_model import BaseModel
 from models import storage
 import re
@@ -69,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.all()[key].save()
 
     def do_EOF(self, line):
-        """Handles EOF."""
+        """Handles End Of File character."""
         print()
         return True
 
