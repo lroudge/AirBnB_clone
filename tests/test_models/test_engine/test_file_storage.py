@@ -11,6 +11,7 @@ import re
 import json
 import os
 
+
 class TestFileStorage(unittest.TestCase):
     """Test Cases for the FileStorage class."""
 
@@ -49,7 +50,7 @@ class TestFileStorage(unittest.TestCase):
             b = FileStorage(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
         msg = "object() takes no parameters"
         self.assertEqual(str(e.exception), msg)
-        
+
     def test_5_attributes(self):
         """Tests class attributes."""
         self.resetStorage()
@@ -61,7 +62,7 @@ class TestFileStorage(unittest.TestCase):
         """Helper tests all() method for classname."""
         self.resetStorage()
         self.assertEqual(storage.all(), {})
-        
+
         o = storage.classes()[classname]()
         storage.new(o)
         key = "{}.{}".format(type(o).__name__, o.id)
@@ -71,7 +72,7 @@ class TestFileStorage(unittest.TestCase):
     def test_5_all_base_model(self):
         """Tests all() method for BaseModel."""
         self.help_test_all("BaseModel")
-	
+
     def test_5_all_user(self):
         """Tests all() method for User."""
         self.help_test_all("User")
@@ -100,7 +101,7 @@ class TestFileStorage(unittest.TestCase):
         """Helper tests all() method with many objects for classname."""
         self.resetStorage()
         self.assertEqual(storage.all(), {})
-        
+
         cls = storage.classes()[classname]
         objs = [cls() for i in range(1000)]
         [storage.new(o) for o in objs]
@@ -218,8 +219,9 @@ class TestFileStorage(unittest.TestCase):
         key = "{}.{}".format(type(o).__name__, o.id)
         storage.save()
         self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        d = { key: o.to_dict() }
-        with open(FileStorage._FileStorage__file_path, "r", encoding="utf-8") as f:
+        d = {key: o.to_dict()}
+        with open(FileStorage._FileStorage__file_path,
+                  "r", encoding="utf-8") as f:
             self.assertEqual(len(f.read()), len(json.dumps(d)))
             f.seek(0)
             self.assertEqual(json.load(f), d)
@@ -314,7 +316,7 @@ class TestFileStorage(unittest.TestCase):
         self.resetStorage()
         storage.reload()
         self.assertEqual(FileStorage._FileStorage__objects, {})
-        
+
         cls = storage.classes()[classname]
         o = cls()
         storage.new(o)
@@ -367,6 +369,7 @@ class TestFileStorage(unittest.TestCase):
             FileStorage.reload(self, 98)
         msg = "reload() takes 1 positional argument but 2 were given"
         self.assertEqual(str(e.exception), msg)
+
 
 if __name__ == '__main__':
     unittest.main()

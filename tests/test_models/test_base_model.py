@@ -93,13 +93,13 @@ class TestBaseModel(unittest.TestCase):
     def test_3_str(self):
         """Tests for __str__ method."""
         b = BaseModel()
-        rex = re.compile("^\[(.*)\] \((.*)\) (.*)$")
+        rex = re.compile(r"^\[(.*)\] \((.*)\) (.*)$")
         res = rex.match(str(b))
         self.assertIsNotNone(res)
         self.assertEqual(res.group(1), "BaseModel")
         self.assertEqual(res.group(2), b.id)
         s = res.group(3)
-        s = re.sub("(datetime\.datetime\([^)]*\))", "'\\1'", s)
+        s = re.sub(r"(datetime\.datetime\([^)]*\))", "'\\1'", s)
         d = json.loads(s.replace("'", '"'))
         d2 = b.__dict__.copy()
         d2["created_at"] = repr(d2["created_at"])
@@ -167,7 +167,8 @@ class TestBaseModel(unittest.TestCase):
         key = "{}.{}".format(type(b).__name__, b.id)
         d = {key: b.to_dict()}
         self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        with open(FileStorage._FileStorage__file_path, "r", encoding="utf-8") as f:
+        with open(FileStorage._FileStorage__file_path,
+                  "r", encoding="utf-8") as f:
             self.assertEqual(len(f.read()), len(json.dumps(d)))
             f.seek(0)
             self.assertEqual(json.load(f), d)
