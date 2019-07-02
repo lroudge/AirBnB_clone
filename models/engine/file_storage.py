@@ -90,9 +90,8 @@ class FileStorage:
                       "longitude": float,
                       "amenity_ids": list},
             "Review":
-                      {"place_id": str,
-                      "user_id": str,
-                      "text": str}
-                     }
+            {"place_id": str,
+                         "user_id": str,
+                         "text": str}
+        }
         return attributes
-
