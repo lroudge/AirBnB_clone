@@ -104,15 +104,20 @@ EOF  all  count  create  destroy  help  quit  show  update
         s = ""
         self.assertEqual(s, self.last_write(1))
 
-    def test_do_create_user(self):
-        """Tests create commmand."""
+    def test_do_create(self):
+        """Tests create for all classes."""
+        for classname in storage.classes():
+            self.help_test_do_create(classname)
+
+    def help_test_do_create(self, classname):
+        """Helper method to test the create commmand."""
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.onecmd("create User"))
+            self.assertFalse(cli.onecmd("create {}".format(classname)))
         uid = f.getvalue()[:-1]
         self.assertTrue(len(uid) > 0)
-        key = "User." + uid
+        key = "{}.{}".format(classname, uid)
         self.assertTrue(key in storage.all())
 
     def test_do_create_error(self):
@@ -146,12 +151,18 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertEqual(d, d2)
 
     def test_do_show(self):
-        """Tests show command."""
-        o = BaseModel()
+        """Tests show for all classes."""
+        for classname in storage.classes():
+            self.help_test_do_show(classname)
+            self.help_test_show_advanced(classname)
+
+    def help_test_do_show(self, classname):
+        """Helps test the show command."""
+        o = storage.classes()[classname]()
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.onecmd("show BaseModel " + o.id))
+            self.assertFalse(cli.onecmd("show {} {}".format(classname, o.id)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         self.help_test_dict(o, s)
@@ -183,14 +194,18 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
-    def test_show_advanced(self):
-        """Tests .show() command."""
-        o = BaseModel()
+    def help_test_show_advanced(self, classname):
+        """Helps test .show() command."""
+        o = storage.classes()[classname]()
         o.save()
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.precmd("BaseModel.show(" + o.id + ")"))
+            self.assertFalse(
+                cli.precmd(
+                    '{}.show("{}")'.format(
+                        classname,
+                        o.id)))
         s = f.getvalue()
         self.assertTrue(len(s) > 0)
         self.help_test_dict(o, s)
@@ -223,13 +238,23 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertEqual(msg, "** no instance found **")
 
     def test_do_destroy(self):
-        """Tests destroy command."""
-        o = BaseModel()
+        """Tests destroy for all classes."""
+        for classname in storage.classes():
+            self.help_test_do_destroy(classname)
+            self.help_test_destroy_advanced(classname)
+
+    def help_test_do_destroy(self, classname):
+        """Helps test the destroy command."""
+        o = storage.classes()[classname]()
         key = self.key(o)
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.onecmd("destroy BaseModel " + o.id))
+            self.assertFalse(
+                cli.onecmd(
+                    "destroy {} {}".format(
+                        classname,
+                        o.id)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) == 0)
         self.assertFalse(key in storage.all())
@@ -261,15 +286,18 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
-    def test_destroy_advanced(self):
-        """Tests .destroy() command."""
-        o = BaseModel()
+    def help_test_destroy_advanced(self, classname):
+        """Helps test the .destroy() command."""
+        o = storage.classes()[classname]()
         o.save()
         key = self.key(o)
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.precmd("BaseModel.destroy(" + o.id + ")"))
+            self.assertFalse(
+                cli.precmd(
+                    '{}.destroy("{}")'.format(
+                        classname, o.id)))
         s = f.getvalue()
         self.assertTrue(len(s) == 0)
         self.assertFalse(key in storage.all())
@@ -302,13 +330,19 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertEqual(msg, "** no instance found **")
 
     def test_do_all(self):
-        """Tests the all command."""
-        o = BaseModel()
+        """Tests all for all classes."""
+        for classname in storage.classes():
+            self.help_test_do_all(classname)
+            self.help_test_all_advanced(classname)
+
+    def help_test_do_all(self, classname):
+        """Helps test the all command."""
+        o = storage.classes()[classname]()
         c = City()
-        u = User()
+        d = User()
         o.save()
         c.save()
-        u.save()
+        d.save()
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
@@ -320,13 +354,13 @@ EOF  all  count  create  destroy  help  quit  show  update
 
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.onecmd("all City"))
+            self.assertFalse(cli.onecmd("all {}".format(classname)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         l = json.loads(s)
         self.assertEqual(
             l, [str(v) for k, v in storage.all().items()
-                if type(v).__name__ == "City"])
+                if type(v).__name__ == classname])
 
     def test_do_all_error(self):
         """Tests all command with errors."""
@@ -337,22 +371,22 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
-    def test_all_advanced(self):
-        """Tests .all() command."""
-        o = BaseModel()
+    def help_test_all_advanced(self, classname):
+        """Helps test the .all() command."""
+        o = storage.classes()[classname]()
         c = City()
         o.save()
         c.save()
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.precmd("City.all()"))
+            self.assertFalse(cli.precmd("{}.all()".format(classname)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         l = json.loads(s)
         self.assertEqual(
             l, [str(v) for k, v in storage.all().items()
-                if type(v).__name__ == "City"])
+                if type(v).__name__ == classname])
 
     def test_do_all_error_advanced(self):
         """Tests all() command with errors."""
@@ -363,19 +397,23 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
-    def test_count_advanced(self):
-        """Tests .count() command."""
-        o = BaseModel()
-        c = BaseModel()
-        o.save()
-        c.save()
+    def test_count_all(self):
+        """Tests count for all classes."""
+        for classname in storage.classes():
+            self.help_test_count_advanced(classname)
+
+    def help_test_count_advanced(self, classname):
+        """Helps test .count() command."""
+        for i in range(20):
+            c = storage.classes()[classname]()
+            c.save()
         cli = self.create()
         f = io.StringIO()
         with redirect_stdout(f):
-            self.assertFalse(cli.precmd("BaseModel.count()"))
+            self.assertFalse(cli.precmd("{}.count()".format(classname)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
-        self.assertEqual(s, "2")
+        self.assertEqual(s, "20")
 
     def test_do_count_error(self):
         """Tests .count() command with errors."""
