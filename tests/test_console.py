@@ -335,7 +335,8 @@ EOF  all  count  create  destroy  help  quit  show  update
             obj.save()
             for attr, value in self.test_random_attributes.items():
                 quotes = (attr == "str")
-                self.help_test_update(obj, attr, value, cli, quotes)
+                self.help_test_update(obj, attr, value, cli, quotes, False)
+                self.help_test_update(obj, attr, value, cli, quotes, True)
             if classname == "BaseModel":
                 continue
             for attr, attr_type in storage.attributes()[classname].items():
@@ -343,18 +344,21 @@ EOF  all  count  create  destroy  help  quit  show  update
                     continue
                 self.help_test_update(obj, attr,
                                       self.attribute_values[attr_type],
-                                      cli, True)
+                                      cli, True, False)
+                self.help_test_update(obj, attr,
+                                      self.attribute_values[attr_type],
+                                      cli, True, True)
 
-    def help_test_update(self, obj, attr, val, cli, quotes):
+    def help_test_update(self, obj, attr, val, cli, quotes, func):
         """Tests update commmand."""
         f = io.StringIO()
-        if quotes:
-            cmd = 'update {} {} {} "{}"'.\
-                format(type(obj).__name__, obj.id, attr, val)
+        value_str = ('"{}"' if quotes else '{}').format(val)
+        if func:
+            cmd = '{}.update({}, {}, {})'
         else:
-            cmd = 'update {} {} {} {}'.\
-                format(type(obj).__name__, obj.id, attr, val)
-        # print("TESTING:", cmd)
+            cmd = 'update {} {} {} {}'
+        cmd = cmd.format(type(obj).__name__, obj.id, attr, value_str)
+        print("TESTING:", cmd)
         with redirect_stdout(f):
             self.assertFalse(cli.onecmd(cmd))
         msg = f.getvalue()[:-1]
