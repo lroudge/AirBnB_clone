@@ -8,7 +8,6 @@ from unittest.mock import patch
 import sys
 from io import StringIO
 import re
-import json
 import os
 
 
@@ -39,6 +38,81 @@ EOF  all  count  create  destroy  help  quit  show  update
             self.assertFalse(HBNBCommand().onecmd("help EOF"))
         s = "Handles End Of File character.\n"
         self.assertEqual(s, f.getvalue())
+
+    def test_help_quit(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help quit"))
+        s = "Exits the program.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_create(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help create"))
+        s = "Creates an instance.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_show(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help show"))
+        s = "Prints the string representation of an instance.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_destroy(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help destroy"))
+        s = "Deletes an instance based on the class name and id.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_all(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help all"))
+        s = "Prints all string representation of all instances.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_count(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help count"))
+        s = "Counts the instances of a class.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_help_update(self):
+        """Tests the help command."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("help update"))
+        s = "Updates an instance by adding or updating attribute.\n"
+        self.assertEqual(s, f.getvalue())
+
+    def test_do_quit(self):
+        """Tests quit commmand."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertTrue(HBNBCommand().onecmd("quit"))
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 0)
+        self.assertEqual("", msg)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertTrue(HBNBCommand().onecmd("quit garbage"))
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 0)
+        self.assertEqual("", msg)
+
+    def test_do_EOF(self):
+        """Tests EOF commmand."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertTrue(HBNBCommand().onecmd("EOF"))
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 1)
+        self.assertEqual("\n", msg)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertTrue(HBNBCommand().onecmd("EOF garbage"))
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 1)
+        self.assertEqual("\n", msg)
 
     def test_emptyline(self):
         """Tests emptyline functionality."""
