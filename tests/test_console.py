@@ -59,7 +59,8 @@ EOF  all  count  create  destroy  help  quit  show  update
     def help_test_do_create(self, classname):
         """Helper method to test the create commmand."""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().onecmd("create {}".format(classname)))
+            self.assertFalse(HBNBCommand().
+                             onecmd("create {}".format(classname)))
         uid = f.getvalue()[:-1]
         self.assertTrue(len(uid) > 0)
         key = "{}.{}".format(classname, uid)
