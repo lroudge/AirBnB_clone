@@ -20,6 +20,18 @@ import os
 class TestHBNBCommand(unittest.TestCase):
     """Tests HBNBCommand console."""
 
+    attribute_values = {
+        str: "foobar108",
+        int: 1008,
+        float: 1.08
+        }
+
+    test_random_attributes = {
+        "strfoo": "barfoo",
+        "intfoo": 248,
+        "floatfoo": 9.8
+        }
+
     def setUp(self):
         """Sets up test cases."""
         self.mock_stdin = create_autospec(sys.stdin)
@@ -314,3 +326,37 @@ EOF  all  count  create  destroy  help  quit  show  update
             self.assertFalse(cli.precmd(".count()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
+
+    def test_update_everything(self):
+        """Tests update command with errthang, like a baws."""
+        cli = self.create()
+        for classname, cls in storage.classes().items():
+            obj = cls()
+            obj.save()
+            for attr, value in self.test_random_attributes.items():
+                quotes = (attr == "str")
+                self.help_test_update(obj, attr, value, cli, quotes)
+            if classname == "BaseModel":
+                continue
+            for attr, attr_type in storage.attributes()[classname].items():
+                if attr_type not in (str, int, float):
+                    continue
+                self.help_test_update(obj, attr,
+                                      self.attribute_values[attr_type],
+                                      cli, True)
+
+    def help_test_update(self, obj, attr, val, cli, quotes):
+        """Tests update commmand."""
+        f = io.StringIO()
+        if quotes:
+            cmd = 'update {} {} {} "{}"'.\
+                format(type(obj).__name__, obj.id, attr, val)
+        else:
+            cmd = 'update {} {} {} {}'.\
+                format(type(obj).__name__, obj.id, attr, val)
+        # print("TESTING:", cmd)
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd(cmd))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(len(msg), 0)
+        self.assertEqual(getattr(obj, attr, None), val)
