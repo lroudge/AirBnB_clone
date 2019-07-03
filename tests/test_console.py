@@ -14,30 +14,8 @@ import os
 class TestHBNBCommand(unittest.TestCase):
     """Tests HBNBCommand console."""
 
-    attribute_values = {
-        str: "foobar108",
-        int: 1008,
-        float: 1.08
-    }
-
-    reset_values = {
-        str: "",
-        int: 0,
-        float: 0.0
-    }
-
-    test_random_attributes = {
-        "strfoo": "barfoo",
-        "intfoo": 248,
-        "floatfoo": 9.8
-    }
-
     def setUp(self):
         """Sets up test cases."""
-        self.resetStorage()
-
-    def resetStorage(self):
-        """Resets FileStorage data."""
         if os.path.isfile("file.json"):
             os.remove("file.json")
 
@@ -71,44 +49,6 @@ EOF  all  count  create  destroy  help  quit  show  update
             self.assertFalse(HBNBCommand().onecmd("                  \n"))
         s = ""
         self.assertEqual(s, f.getvalue())
-
-    def attributes(self):
-        """Returns the valid attributes and their types for classname."""
-        attributes = {
-            "BaseModel":
-                     {"id": str,
-                      "created_at": datetime.datetime,
-                      "updated_at": datetime.datetime},
-            "User":
-                     {"email": str,
-                      "password": str,
-                      "first_name": str,
-                      "last_name": str},
-            "State":
-                     {"name": str},
-            "City":
-                     {"state_id": str,
-                      "name": str},
-            "Amenity":
-                     {"name": str},
-            "Place":
-                     {"city_id": str,
-                      "user_id": str,
-                      "name": str,
-                      "description": str,
-                      "number_rooms": int,
-                      "number_bathrooms": int,
-                      "max_guest": int,
-                      "price_by_night": int,
-                      "latitude": float,
-                      "longitude": float,
-                      "amenity_ids": list},
-            "Review":
-            {"place_id": str,
-                         "user_id": str,
-                         "text": str}
-        }
-        return attributes
 
 if __name__ == "__main__":
     unittest.main()
