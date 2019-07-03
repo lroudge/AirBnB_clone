@@ -375,6 +375,33 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
+    def test_count_all(self):
+        """Tests count for all classes."""
+        for classname in self.classes():
+            self.help_test_count_advanced(classname)
+
+    def help_test_count_advanced(self, classname):
+        """Helps test .count() command."""
+        for i in range(20):
+            uid = self.create_class(classname)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().
+                             precmd("{}.count()".format(classname)))
+        s = f.getvalue()[:-1]
+        self.assertTrue(len(s) > 0)
+        self.assertEqual(s, "20")
+
+    def test_do_count_error(self):
+        """Tests .count() command with errors."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().precmd("garbage.count()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().precmd(".count()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
+
     def create_class(self, classname):
         """Creates a class for console tests."""
         with patch('sys.stdout', new=StringIO()) as f:
