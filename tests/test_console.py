@@ -371,9 +371,36 @@ EOF  all  count  create  destroy  help  quit  show  update
         f = io.StringIO()
         with redirect_stdout(f):
             self.assertTrue(cli.onecmd("quit"))
-        # TODO: is the following pro/con?
-        uid = f.getvalue()[:-1]
-        self.assertTrue(len(uid) == 0)
+        self.mock_stdout.flush()
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 0)
+        self.assertEqual("", msg)
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertTrue(cli.onecmd("quit garbage"))
+        self.mock_stdout.flush()
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 0)
+        self.assertEqual("", msg)
+
+    def test_do_EOF(self):
+        """Tests EOF commmand."""
+        cli = self.create()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertTrue(cli.onecmd("EOF"))
+        self.mock_stdout.flush()
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 1)
+        self.assertEqual("\n", msg)
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertTrue(cli.onecmd("EOF garbage"))
+        self.mock_stdout.flush()
+        msg = f.getvalue()
+        self.assertTrue(len(msg) == 1)
+        self.assertEqual("\n", msg)
+
 
 if __name__ == "__main__":
     unittest.main()
