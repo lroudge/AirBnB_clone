@@ -26,6 +26,12 @@ class TestHBNBCommand(unittest.TestCase):
         float: 1.08
         }
 
+    reset_values = {
+        str: "",
+        int: 0,
+        float: 0.0
+        }
+
     test_random_attributes = {
         "strfoo": "barfoo",
         "intfoo": 248,
@@ -334,12 +340,15 @@ EOF  all  count  create  destroy  help  quit  show  update
             obj = cls()
             obj.save()
             for attr, value in self.test_random_attributes.items():
+                if type(value) is not str:
+                    continue
                 quotes = (attr == "str")
                 self.help_test_update(obj, attr, value, cli, quotes, False)
                 self.help_test_update(obj, attr, value, cli, quotes, True)
             if classname == "BaseModel":
                 continue
             for attr, attr_type in storage.attributes()[classname].items():
+                continue
                 if attr_type not in (str, int, float):
                     continue
                 self.help_test_update(obj, attr,
@@ -352,18 +361,23 @@ EOF  all  count  create  destroy  help  quit  show  update
     def help_test_update(self, obj, attr, val, cli, quotes, func):
         """Tests update commmand."""
         f = io.StringIO()
+        quotes = True
         value_str = ('"{}"' if quotes else '{}').format(val)
         if func:
-            cmd = '{}.update({}, {}, {})'
+            cmd = '{}.update("{}", "{}", {})'
         else:
             cmd = 'update {} {} {} {}'
         cmd = cmd.format(type(obj).__name__, obj.id, attr, value_str)
         # print("TESTING:", cmd)
         with redirect_stdout(f):
-            self.assertFalse(cli.onecmd(cmd))
+            if func:
+                self.assertFalse(cli.precmd(cmd))
+            else:
+                self.assertFalse(cli.onecmd(cmd))
         msg = f.getvalue()[:-1]
         self.assertEqual(len(msg), 0)
         self.assertEqual(getattr(obj, attr, None), val)
+        setattr(obj, attr, self.reset_values[type(attr)])
 
     def test_do_quit(self):
         """Tests quit commmand."""
