@@ -64,7 +64,10 @@ EOF  all  count  create  destroy  help  quit  show  update
         uid = f.getvalue()[:-1]
         self.assertTrue(len(uid) > 0)
         key = "{}.{}".format(classname, uid)
-        self.assertTrue(key in storage.all())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().
+                             onecmd("all {}".format(classname)))
+        self.assertTrue(uid in f.getvalue())
 
     def test_do_create_error(self):
         """Tests create command with errors."""
