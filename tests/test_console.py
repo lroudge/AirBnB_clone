@@ -364,3 +364,16 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(len(msg), 0)
         self.assertEqual(getattr(obj, attr, None), val)
+
+    def test_do_quit(self):
+        """Tests quit commmand."""
+        cli = self.create()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertTrue(cli.onecmd("quit"))
+        # TODO: is the following pro/con?
+        uid = f.getvalue()[:-1]
+        self.assertTrue(len(uid) == 0)
+
+if __name__ == "__main__":
+    unittest.main()

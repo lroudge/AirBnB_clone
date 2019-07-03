@@ -28,8 +28,6 @@ class TestAmenity(unittest.TestCase):
     def resetStorage(self):
         """Resets FileStorage data."""
         FileStorage._FileStorage__objects = {}
-        # TODO: should this reference the class attribute differently?
-        # such as: storage.__class__.MANGLED_ATTR
         if os.path.isfile(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
@@ -48,3 +46,6 @@ class TestAmenity(unittest.TestCase):
         for k, v in attributes.items():
             self.assertTrue(hasattr(o, k))
             self.assertEqual(type(getattr(o, k, None)), v)
+
+if __name__ == "__main__":
+    unittest.main()
