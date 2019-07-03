@@ -358,7 +358,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         else:
             cmd = 'update {} {} {} {}'
         cmd = cmd.format(type(obj).__name__, obj.id, attr, value_str)
-        print("TESTING:", cmd)
+        # print("TESTING:", cmd)
         with redirect_stdout(f):
             self.assertFalse(cli.onecmd(cmd))
         msg = f.getvalue()[:-1]
