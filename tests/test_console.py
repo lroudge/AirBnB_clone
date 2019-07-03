@@ -24,19 +24,19 @@ class TestHBNBCommand(unittest.TestCase):
         str: "foobar108",
         int: 1008,
         float: 1.08
-        }
+    }
 
     reset_values = {
         str: "",
         int: 0,
         float: 0.0
-        }
+    }
 
     test_random_attributes = {
         "strfoo": "barfoo",
         "intfoo": 248,
         "floatfoo": 9.8
-        }
+    }
 
     def setUp(self):
         """Sets up test cases."""
@@ -191,11 +191,36 @@ EOF  all  count  create  destroy  help  quit  show  update
         f = io.StringIO()
         with redirect_stdout(f):
             self.assertFalse(cli.precmd("BaseModel.show(" + o.id + ")"))
-        # Might work on our code but not on the one the checker uses -> put
-        # onecmd back ?
         s = f.getvalue()
         self.assertTrue(len(s) > 0)
         self.help_test_dict(o, s)
+
+    def test_do_show_error_advanced(self):
+        """Tests show() command with errors."""
+        cli = self.create()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd(".show()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("garbage.show()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("BaseModel.show()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** instance id missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd('BaseModel.show("6524359")'))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** no instance found **")
 
     def test_do_destroy(self):
         """Tests destroy command."""
@@ -245,11 +270,36 @@ EOF  all  count  create  destroy  help  quit  show  update
         f = io.StringIO()
         with redirect_stdout(f):
             self.assertFalse(cli.precmd("BaseModel.destroy(" + o.id + ")"))
-        # Might work on our code but not on the one the checker uses -> put
-        # onecmd back ?
         s = f.getvalue()
         self.assertTrue(len(s) == 0)
         self.assertFalse(key in storage.all())
+
+    def test_do_destroy_error_advanced(self):
+        """Tests destroy() command with errors."""
+        cli = self.create()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd(".destroy()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("garbage.destroy()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("BaseModel.destroy()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** instance id missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd('BaseModel.destroy("6524359")'))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** no instance found **")
 
     def test_do_all(self):
         """Tests the all command."""
@@ -303,6 +353,15 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertEqual(
             l, [str(v) for k, v in storage.all().items()
                 if type(v).__name__ == "City"])
+
+    def test_do_all_error_advanced(self):
+        """Tests all() command with errors."""
+        cli = self.create()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("garbage.all()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
 
     def test_count_advanced(self):
         """Tests .count() command."""
@@ -378,6 +437,94 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertEqual(len(msg), 0)
         self.assertEqual(getattr(obj, attr, None), val)
         setattr(obj, attr, self.reset_values[type(attr)])
+
+    def test_do_update_error(self):
+        """Tests update command with errors."""
+        cli = self.create()
+        b = BaseModel()
+        b.save()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd("update"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd("update garbage"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd("update BaseModel"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** instance id missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd("update BaseModel 6534276893"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** no instance found **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.onecmd('update BaseModel {}'.format(b.id)))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** attribute name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(
+                cli.onecmd(
+                    'update BaseModel {} name'.format(
+                        b.id)))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** value missing **")
+
+    def test_do_update_error_advanced(self):
+        """Tests update() command with errors."""
+        cli = self.create()
+        b = BaseModel()
+        b.save()
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd(".update()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("garbage.update()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("BaseModel.update()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** instance id missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd("BaseModel.update(6534276893)"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** no instance found **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(cli.precmd('BaseModel.update("{}")'.format(b.id)))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** attribute name missing **")
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            self.assertFalse(
+                cli.precmd(
+                    'BaseModel.update("{}", "name")'.format(
+                        b.id)))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** value missing **")
 
     def test_do_quit(self):
         """Tests quit commmand."""
