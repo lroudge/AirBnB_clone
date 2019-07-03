@@ -256,6 +256,60 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
+    def test_do_all(self):
+        """Tests all for all classes."""
+        for classname in self.classes():
+            self.help_test_do_all(classname)
+            self.help_test_all_advanced(classname)
+
+    def help_test_do_all(self, classname):
+        """Helps test the all command."""
+        uid = self.create_class(classname)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("all"))
+        s = f.getvalue()[:-1]
+        self.assertTrue(len(s) > 0)
+        self.assertIn(uid, s)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("all {}".format(classname)))
+        s = f.getvalue()[:-1]
+        self.assertTrue(len(s) > 0)
+        self.assertIn(uid, s)
+
+    def test_do_all_error(self):
+        """Tests all command with errors."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().onecmd("all garbage"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+    def help_test_all_advanced(self, classname):
+        """Helps test the .all() command."""
+        uid = self.create_class(classname)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().
+                             precmd("{}.all()".format(classname)))
+        s = f.getvalue()[:-1]
+        self.assertTrue(len(s) > 0)
+        self.assertIn(uid, s)
+
+    def test_do_all_error_advanced(self):
+        """Tests all() command with errors."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().precmd("garbage.all()"))
+        msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class doesn't exist **")
+
+    def create_class(self, classname):
+        """Creates a class for console tests."""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.assertFalse(HBNBCommand().
+                             onecmd("create {}".format(classname)))
+        uid = f.getvalue()[:-1]
+        self.assertTrue(len(uid) > 0)
+        return uid
+
     def help_load_dict(self, rep):
         """Helper method to test dictionary equality."""
         rex = re.compile(r"^\[(.*)\] \((.*)\) (.*)$")
