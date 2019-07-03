@@ -340,15 +340,16 @@ EOF  all  count  create  destroy  help  quit  show  update
             obj = cls()
             obj.save()
             for attr, value in self.test_random_attributes.items():
+                """
                 if type(value) is not str:
                     continue
+                """
                 quotes = (attr == "str")
                 self.help_test_update(obj, attr, value, cli, quotes, False)
                 self.help_test_update(obj, attr, value, cli, quotes, True)
             if classname == "BaseModel":
                 continue
             for attr, attr_type in storage.attributes()[classname].items():
-                continue
                 if attr_type not in (str, int, float):
                     continue
                 self.help_test_update(obj, attr,
@@ -356,12 +357,11 @@ EOF  all  count  create  destroy  help  quit  show  update
                                       cli, True, False)
                 self.help_test_update(obj, attr,
                                       self.attribute_values[attr_type],
-                                      cli, True, True)
+                                      cli, False, True)
 
     def help_test_update(self, obj, attr, val, cli, quotes, func):
         """Tests update commmand."""
         f = io.StringIO()
-        quotes = True
         value_str = ('"{}"' if quotes else '{}').format(val)
         if func:
             cmd = '{}.update("{}", "{}", {})'
