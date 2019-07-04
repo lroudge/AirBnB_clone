@@ -402,6 +402,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().precmd(".count()"))
         msg = f.getvalue()[:-1]
+        self.assertEqual(msg, "** class name missing **")
 
     def resetStorage(self):
         """Resets FileStorage data."""
