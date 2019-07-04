@@ -31,7 +31,7 @@ class TestHBNBCommand(unittest.TestCase):
     test_random_attributes = {
         "strfoo": "barfoo",
         "intfoo": 248,
-        "floatfoo": 9.8
+        #  "floatfoo": 9.8
     }
 
     def setUp(self):
