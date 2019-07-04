@@ -22,13 +22,12 @@ class TestFileStorage(unittest.TestCase):
     def resetStorage(self):
         """Resets FileStorage data."""
         FileStorage._FileStorage__objects = {}
-        # TODO: should this reference the class attribute differently?
-        # such as: storage.__class__.MANGLED_ATTR
         if os.path.isfile(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
     def tearDown(self):
         """Tears down test methods."""
+        self.resetStorage()
         pass
 
     def test_5_instantiation(self):

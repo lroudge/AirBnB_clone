@@ -23,6 +23,7 @@ class TestPlace(unittest.TestCase):
 
     def tearDown(self):
         """Tears down test methods."""
+        self.resetStorage()
         pass
 
     def resetStorage(self):
