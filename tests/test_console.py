@@ -234,7 +234,7 @@ EOF  all  count  create  destroy  help  quit  show  update
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(
-                HBNBCommand().precmd(
+                HBNBCommand().onecmd(
                     '{}.show("{}")'.format(
                         classname,
                         uid)))
@@ -244,22 +244,22 @@ EOF  all  count  create  destroy  help  quit  show  update
     def test_do_show_error_advanced(self):
         """Tests show() command with errors."""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".show()"))
+            self.assertFalse(HBNBCommand().onecmd(".show()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("garbage.show()"))
+            self.assertFalse(HBNBCommand().onecmd("garbage.show()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("BaseModel.show()"))
+            self.assertFalse(HBNBCommand().onecmd("BaseModel.show()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** instance id missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd('BaseModel.show("6524359")'))
+            self.assertFalse(HBNBCommand().onecmd('BaseModel.show("6524359")'))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
@@ -287,7 +287,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertTrue(len(s) == 0)
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".all()"))
+            self.assertFalse(HBNBCommand().onecmd(".all()"))
         self.assertFalse(uid in f.getvalue())
 
     def test_do_destroy_error(self):
@@ -322,7 +322,7 @@ EOF  all  count  create  destroy  help  quit  show  update
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(
-                HBNBCommand().precmd(
+                HBNBCommand().onecmd(
                     '{}.destroy("{}")'.format(
                         classname,
                         uid)))
@@ -330,29 +330,29 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertTrue(len(s) == 0)
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".all()"))
+            self.assertFalse(HBNBCommand().onecmd(".all()"))
         self.assertFalse(uid in f.getvalue())
 
     def test_do_destroy_error_advanced(self):
         """Tests destroy() command with errors."""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".destroy()"))
+            self.assertFalse(HBNBCommand().onecmd(".destroy()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("garbage.destroy()"))
+            self.assertFalse(HBNBCommand().onecmd("garbage.destroy()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("BaseModel.destroy()"))
+            self.assertFalse(HBNBCommand().onecmd("BaseModel.destroy()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** instance id missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(
-                HBNBCommand().precmd('BaseModel.destroy("6524359")'))
+                HBNBCommand().onecmd('BaseModel.destroy("6524359")'))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
@@ -389,7 +389,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         uid = self.create_class(classname)
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().
-                             precmd("{}.all()".format(classname)))
+                             onecmd("{}.all()".format(classname)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         self.assertIn(uid, s)
@@ -397,7 +397,7 @@ EOF  all  count  create  destroy  help  quit  show  update
     def test_do_all_error_advanced(self):
         """Tests all() command with errors."""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("garbage.all()"))
+            self.assertFalse(HBNBCommand().onecmd("garbage.all()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
@@ -412,7 +412,7 @@ EOF  all  count  create  destroy  help  quit  show  update
             uid = self.create_class(classname)
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().
-                             precmd("{}.count()".format(classname)))
+                             onecmd("{}.count()".format(classname)))
         s = f.getvalue()[:-1]
         self.assertTrue(len(s) > 0)
         self.assertEqual(s, "20")
@@ -420,11 +420,11 @@ EOF  all  count  create  destroy  help  quit  show  update
     def test_do_count_error(self):
         """Tests .count() command with errors."""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("garbage.count()"))
+            self.assertFalse(HBNBCommand().onecmd("garbage.count()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".count()"))
+            self.assertFalse(HBNBCommand().onecmd(".count()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
@@ -464,14 +464,14 @@ EOF  all  count  create  destroy  help  quit  show  update
         cmd = cmd.format(classname, uid, attr, value_str)
         with patch('sys.stdout', new=StringIO()) as f:
             if func:
-                self.assertFalse(HBNBCommand().precmd(cmd))
+                self.assertFalse(HBNBCommand().onecmd(cmd))
             else:
                 self.assertFalse(HBNBCommand().onecmd(cmd))
         msg = f.getvalue()[:-1]
         self.assertEqual(len(msg), 0)
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(
-                HBNBCommand().precmd(
+                HBNBCommand().onecmd(
                     '{}.show("{}")'.format(
                         classname,
                         uid)))
@@ -521,35 +521,35 @@ EOF  all  count  create  destroy  help  quit  show  update
         """Tests update() command with errors."""
         uid = self.create_class("BaseModel")
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd(".update()"))
+            self.assertFalse(HBNBCommand().onecmd(".update()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("garbage.update()"))
+            self.assertFalse(HBNBCommand().onecmd("garbage.update()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
         with patch('sys.stdout', new=StringIO()) as f:
-            self.assertFalse(HBNBCommand().precmd("BaseModel.update()"))
+            self.assertFalse(HBNBCommand().onecmd("BaseModel.update()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** instance id missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().
-                             precmd("BaseModel.update(6534276893)"))
+                             onecmd("BaseModel.update(6534276893)"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** no instance found **")
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().
-                             precmd('BaseModel.update("{}")'.format(uid)))
+                             onecmd('BaseModel.update("{}")'.format(uid)))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** attribute name missing **")
 
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(
-                HBNBCommand().precmd(
+                HBNBCommand().onecmd(
                     'BaseModel.update("{}", "name")'.format(
                         uid)))
         msg = f.getvalue()[:-1]

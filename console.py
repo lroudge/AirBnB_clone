@@ -14,8 +14,14 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
-    def precmd(self, line):
+    def default(self, line):
+        """Catch commands if nothing else matches then."""
+        # print("DEF:::", line)
+        self._precmd(line)
+
+    def _precmd(self, line):
         """Intercepts commands to test for class.syntax()"""
+        # print("PRECMD:::", line)
         match = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
         if not match:
             return line
@@ -43,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
                     1) or "") + " " + (match_attr_and_value.group(2) or "")
         command = method + " " + classname + " " + uid + " " + attr_and_value
         self.onecmd(command)
-        return ""
+        return command
 
     def update_dict(self, classname, uid, s_dict):
         """Helper method for update() with a dictionary."""
