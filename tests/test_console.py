@@ -593,12 +593,9 @@ EOF  all  count  create  destroy  help  quit  show  update
         print("MSG::", msg)
         print("CMD::", cmd)
         if func:
-            
-            
             self.assertNotEqual(len(msg), 0)
         else:
             self.assertEqual(len(msg), 0)
-        
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd('{}.show("{}")'.format(classname, uid))
 
