@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 """Module for TestHBNBCommand class."""
 
-from models.engine.file_storage import FileStorage
 from console import HBNBCommand
 import unittest
-import datetime
 from unittest.mock import patch
 import sys
 from io import StringIO
@@ -20,7 +18,6 @@ class TestHBNBCommand(unittest.TestCase):
         """Sets up test cases."""
         if os.path.isfile("file.json"):
             os.remove("file.json")
-        self.resetStorage()
 
     def test_help(self):
         """Tests the help command."""
@@ -403,12 +400,6 @@ EOF  all  count  create  destroy  help  quit  show  update
             self.assertFalse(HBNBCommand().precmd(".count()"))
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
-
-    def resetStorage(self):
-        """Resets FileStorage data."""
-        FileStorage._FileStorage__objects = {}
-        if os.path.isfile(FileStorage._FileStorage__file_path):
-            os.remove(FileStorage._FileStorage__file_path)
 
     def create_class(self, classname):
         """Creates a class for console tests."""
