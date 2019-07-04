@@ -406,20 +406,19 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
-    def _test_update_everything(self):
+    def test_update_everything(self):
         """Tests update command with errthang, like a baws."""
         for classname, cls in self.classes().items():
             uid = self.create_class(classname)
             for attr, value in self.test_random_attributes.items():
-                """
                 if type(value) is not str:
                     continue
-                """
-                quotes = (attr == "str")
+                quotes = (type(value) == str)
                 self.help_test_update(classname, uid, attr,
                                       value, quotes, False)
                 self.help_test_update(classname, uid, attr,
                                       value, quotes, True)
+            continue
             if classname == "BaseModel":
                 continue
             for attr, attr_type in self.attributes()[classname].items():
@@ -434,12 +433,14 @@ EOF  all  count  create  destroy  help  quit  show  update
 
     def help_test_update(self, classname, uid, attr, val, quotes, func):
         """Tests update commmand."""
+        #  print("QUOTES", quotes)
         value_str = ('"{}"' if quotes else '{}').format(val)
         if func:
             cmd = '{}.update("{}", "{}", {})'
         else:
             cmd = 'update {} {} {} {}'
         cmd = cmd.format(classname, uid, attr, value_str)
+        #  print("CMD::", cmd)
         with patch('sys.stdout', new=StringIO()) as f:
             if func:
                 HBNBCommand().onecmd(cmd)
