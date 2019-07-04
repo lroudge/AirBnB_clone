@@ -406,7 +406,7 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class name missing **")
 
-    def test_update_everything(self):
+    def _test_update_everything(self):
         """Tests update command with errthang, like a baws."""
         for classname, cls in self.classes().items():
             uid = self.create_class(classname)
