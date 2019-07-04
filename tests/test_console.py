@@ -62,56 +62,56 @@ EOF  all  count  create  destroy  help  quit  show  update
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help EOF"))
-        s = "Handles End Of File character.\n"
+        s = 'Handles End Of File character.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_quit(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help quit"))
-        s = "Exits the program.\n"
+        s = 'Exits the program.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_create(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help create"))
-        s = "Creates an instance.\n"
+        s = 'Creates an instance.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_show(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help show"))
-        s = "Prints the string representation of an instance.\n"
+        s = 'Prints the string representation of an instance.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_destroy(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help destroy"))
-        s = "Deletes an instance based on the class name and id.\n"
+        s = 'Deletes an instance based on the class name and id.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_all(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help all"))
-        s = "Prints all string representation of all instances.\n"
+        s = 'Prints all string representation of all instances.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_count(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help count"))
-        s = "Counts the instances of a class.\n"
+        s = 'Counts the instances of a class.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_help_update(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             self.assertFalse(HBNBCommand().onecmd("help update"))
-        s = "Updates an instance by adding or updating attribute.\n"
+        s = 'Updates an instance by adding or updating attribute.\n        \n'
         self.assertEqual(s, f.getvalue())
 
     def test_do_quit(self):
