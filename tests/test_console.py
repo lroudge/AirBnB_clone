@@ -31,7 +31,7 @@ class TestHBNBCommand(unittest.TestCase):
     test_random_attributes = {
         "strfoo": "barfoo",
         "intfoo": 248,
-        #  "floatfoo": 9.8
+        "floatfoo": 9.8
     }
 
     def setUp(self):
@@ -546,19 +546,19 @@ EOF  all  count  create  destroy  help  quit  show  update
         self.assertIn(attr, s)
         self.assertIn(val, s)
 
-    def _test_update_everything(self):
+    def test_update_everything(self):
         """Tests update command with errthang, like a baws."""
         for classname, cls in self.classes().items():
             uid = self.create_class(classname)
             for attr, value in self.test_random_attributes.items():
                 if type(value) is not str:
-                    continue
+                    pass
                 quotes = (type(value) == str)
                 self.help_test_update(classname, uid, attr,
                                       value, quotes, False)
                 self.help_test_update(classname, uid, attr,
                                       value, quotes, True)
-            continue
+            pass
             if classname == "BaseModel":
                 continue
             for attr, attr_type in self.attributes()[classname].items():
@@ -577,32 +577,22 @@ EOF  all  count  create  destroy  help  quit  show  update
         FileStorage._FileStorage__objects = {}
         if os.path.isfile("file.json"):
             os.remove("file.json")
+        uid = self.create_class(classname)
         value_str = ('"{}"' if quotes else '{}').format(val)
         if func:
-            cmd = '{}.update({}, "{}", {})'
+            cmd = '{}.update("{}", "{}", {})'
         else:
             cmd = 'update {} {} {} {}'
         cmd = cmd.format(classname, uid, attr, value_str)
-        #  print("CMD::", cmd)
         with patch('sys.stdout', new=StringIO()) as f:
-            if func:
-                HBNBCommand().onecmd(cmd)
-            else:
-                HBNBCommand().onecmd(cmd)
+            HBNBCommand().onecmd(cmd)
         msg = f.getvalue()[:-1]
-        print("MSG::", msg)
-        print("CMD::", cmd)
-        if func:
-            self.assertNotEqual(len(msg), 0)
-        else:
-            self.assertEqual(len(msg), 0)
+        # print("MSG::", msg)
+        # print("CMD::", cmd)
+        self.assertEqual(len(msg), 0)
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd('{}.show("{}")'.format(classname, uid))
-
         s = f.getvalue()
-        if func:
-            print("POS!")
-            print("S::", s)
         self.assertIn(str(val), s)
         self.assertIn(attr, s)
 
