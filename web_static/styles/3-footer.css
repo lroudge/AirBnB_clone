@@ -1,0 +1,18 @@
+footer {
+    display: grid;
+    grid-column-start: 1;
+    grid-column-end: 13;
+    grid-row-start: 10; 
+    grid-row-end: 11;
+    grid-template-rows: repeat(3, 20px);
+    border-top: 1px solid #CCCCCC;
+    height: 60px;
+    width: 100%;
+    background-color: white;
+}
+
+.footText {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    text-align: center;
+}

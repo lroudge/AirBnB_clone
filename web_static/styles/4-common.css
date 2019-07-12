@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color : #484848;
+    font-size: 14px;
+    font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    align-content: center;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.container {
+    max-width: 1000px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-column-start: 2;
+    grid-column-end: 11;
+    grid-row-start: 3; 
+    grid-row-end: 4;
+}
