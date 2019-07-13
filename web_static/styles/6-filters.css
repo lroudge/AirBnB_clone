@@ -13,6 +13,7 @@
     grid-row-start: 3; 
     grid-row-end: 6;
     grid-template-columns: 25% 25% 50%;
+    z-index: 9;
 }
 
 button {
@@ -74,6 +75,7 @@ h4 {
 
 .popover li {
     margin: 10px 50px;
+    display: grid;
 }
 
 .locations:hover .popover {
