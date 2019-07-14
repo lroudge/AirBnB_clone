@@ -10,8 +10,8 @@
     display: grid;
     grid-column-start: 3;
     grid-column-end: 11;
-    grid-row-start: 3; 
-    grid-row-end: 6;
+    grid-row-start: 2; 
+    grid-row-end: 3;
     grid-template-columns: 25% 25% 50%;
     z-index: 9;
 }
@@ -71,6 +71,7 @@ h4 {
 
 .popover h2 {
     margin: 10px 30px;
+    display: grid;
 }
 
 .popover li {
