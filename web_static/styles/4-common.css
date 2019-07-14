@@ -13,7 +13,8 @@ body {
     position: relative;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(15, 100px);
+    grid-template-rows: repeat(20, 100px);
+    overflow: scroll;
 }
 
 .container {

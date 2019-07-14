@@ -1,0 +1,203 @@
+.places {
+    width: 100%;
+    position: absolute;
+    display: grid;
+    margin-top: 20px;
+    grid-row-start: 3;
+    grid-row-end: 10;
+    grid-column-start: 3;
+    grid-column-end: 11;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 390px);
+    grid-row-gap: 10px;
+    grid-column-gap: 30px;
+}
+
+.places h1 {
+    font-size: 30px;
+    text-align: left;
+    grid-column-start: 0;
+    grid-column-end: 1;
+    padding: 15px;
+}
+
+.places article {
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    border: #FF5A5F solid 1px;
+    border-radius: 4px;
+    grid-row-start: 2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 100px 100px 20px;
+}
+
+.places article:nth-child(2) {
+    grid-row: 2;
+}
+
+.places article:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2;
+}
+
+.places article:nth-child(4) {
+    grid-row: 3;
+    margin-left: 60%;
+}
+
+.places h2 {
+    font-size: 30px;
+    text-align: center;
+    grid-column: 1 / 4;
+}
+
+.price_by_night {
+    grid-column: 4 / 5;
+    color: #FF5A5F;
+    border: #FF5A5F solid 4px;
+    border-radius: 50%;
+    text-align: center;
+    min-width: 60px;
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+    line-height: 70px;
+}
+.information {
+    height: 80px;
+    border-bottom: #DDDDDD solid 1px;
+    border-top: #DDDDDD solid 1px;
+    grid-column: 1 / 5;
+    display: grid;
+    font-size: 16px;
+    grid-template-columns: 24px 100px 100px 100px 24px;
+}
+
+.max_guest {
+    grid-column: 2 / 3;
+    text-align: center;
+}
+
+.number_rooms {
+    grid-column: 3 / 4;
+    text-align: center;
+}
+
+.number_bathrooms {
+    grid-column: 4 / 5;
+    text-align: center;
+}
+
+.icon_guest {
+    background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_group.png');
+    grid-column: 2 / 3;
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+}
+
+.icon_bed {
+    background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_bed.png');
+    grid-column: 3 / 4;
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+}
+
+.icon_bath {
+    background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_bath.png');
+    grid-column: 4 / 5;
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+}
+
+.user {
+    grid-column: 1 / 5;
+}
+
+.description {
+    grid-column: 1 / 5;
+}
+
+.places .amenities {
+    grid-column: 1 / 5;
+    margin-top: 40px;
+    text-align: left;
+    list-style-type: none;
+    display: grid;
+}
+
+.places .reviews {
+    grid-column: 1 / 5;
+    margin-top: 40px;
+    text-align: left;
+    list-style-type: none;
+}
+
+.places .amenities h2 {
+    font-size: 16px;
+    border-bottom: #DDDDDD solid 1px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.places .reviews h2 {
+    font-size: 16px;
+    border-bottom: #DDDDDD solid 1px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.places .amenities ul {
+    list-style-type: none;
+    padding-top: 20px;
+}
+
+.places .amenities li {
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 1fr;
+    display: grid;
+    text-align: justify;
+}
+
+.places .reviews ul {
+    list-style-type: none;
+    padding-top: 20px;
+}
+
+.tv_icon {
+    background-image: url("https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_tv.png");
+    width: 50px;
+    height: 50px;
+    grid-column: 1 / 2;
+}
+
+.wifi_icon {
+    background-image: url("https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_wifi.png");
+    width: 50px;
+    height: 50px;
+    grid-column: 1 / 2;
+}
+
+.pets_icon {
+    background-image: url("https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/icon_pets.png");
+    width: 50px;
+    height: 50px;
+    grid-column: 1 / 2;
+}
+
+.places .amenities li p {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    padding: 20px;
+}
+
+.places .reviews h3 {
+    font-size: 14px;
+    text-align: left;
+    grid-column-start: 1;
+    margin: 10px auto;
+}

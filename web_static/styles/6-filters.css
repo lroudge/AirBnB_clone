@@ -52,7 +52,7 @@ h4 {
     border-right: 1px solid #DDDDDD;
 }
 
-.amenities {
+.filters .amenities {
     height: 100%;
     grid-column-start: 2;
 }
@@ -84,7 +84,7 @@ h4 {
     grid-row-start: 3;
 }
 
-.amenities:hover .popover {
+.filters .amenities:hover .popover {
     display: grid;
     grid-row-start: 3;
 }

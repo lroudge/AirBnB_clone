@@ -1,9 +1,7 @@
 footer {
     display: grid;
-    grid-column-start: 1;
-    grid-column-end: 13;
-    grid-row-start: 15; 
-    grid-row-end: 16;
+    grid-column: 1 / 13;
+    grid-row: 21 / 22;
     grid-template-rows: repeat(3, 20px);
     border-top: 1px solid #CCCCCC;
     height: 60px;
