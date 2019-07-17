@@ -1,24 +1,16 @@
 .places {
     width: 100%;
-    position: absolute;
-    display: grid;
+    display: flex;
     margin-top: 20px;
-    grid-row-start: 4;
-    grid-row-end: 10;
-    grid-column-start: 3;
-    grid-column-end: 11;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 390px);
-    grid-row-gap: 10px;
-    grid-column-gap: 30px;
+    flex-flow: row wrap;
+    justify-content: center;
 }
 
 .places h1 {
     font-size: 30px;
     text-align: left;
-    grid-column-start: 0;
-    grid-column-end: 1;
     padding: 15px;
+    flex-basis: 90%;
 }
 
 .places article {
@@ -28,25 +20,16 @@
     border: #FF5A5F solid 1px;
     border-radius: 4px;
     grid-row-start: 2;
-}
-
-.places article:nth-child(2) {
-    grid-column: 0 / 2;
-    grid-row: 2;
-}
-
-.places article:nth-child(3) {
-    grid-column: 1 / 2;
-    grid-row: 2;
-}
-
-.places article:nth-child(4) {
-    grid-column: 0 / 2;
-    grid-row: 3;
-    margin-left: 60%;
+    display: flex;
+    order: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
 }
 
 .places h2 {
     font-size: 30px;
     text-align: center;
+    width: 75%;
+    align-content: center;
 }

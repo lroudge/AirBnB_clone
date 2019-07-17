@@ -1,20 +1,16 @@
 .places {
     width: 100%;
-    position: absolute;
     display: flex;
     margin-top: 20px;
     flex-flow: row wrap;
     justify-content: center;
-    align-content: space-evenly;
-    position: absolute;
-    grid-row-start: 3;
 }
 
 .places h1 {
     font-size: 30px;
     text-align: left;
     padding: 15px;
-    flex-basis: 70%;
+    flex-basis: 90%;
 }
 
 .places article {

@@ -2,28 +2,22 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    z-index: 1;
+}
+
+html {
+    height: 100vh;
 }
 
 body {
     color : #484848;
     font-size: 14px;
     font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    align-content: center;
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(20, 100px);
-    overflow: scroll;
+    height:100%;
 }
 
 .container {
     max-width: 1000px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    display: grid;
-    grid-column-start: 3;
-    grid-column-end: 11;
-    grid-row-start: 2; 
-    grid-row-end: 3;
+    margin: 30px auto;
+    height: 100%;
 }

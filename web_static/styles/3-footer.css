@@ -1,17 +1,18 @@
 footer {
-    display: grid;
-    grid-column: 1 / 13;
-    grid-row: 21 / 22;
-    grid-template-rows: repeat(3, 20px);
+    display: flex;
     border-top: 1px solid #CCCCCC;
     height: 60px;
     width: 100%;
     background-color: white;
-    position: absolute;
+    align-items: stretch;
+    flex-direction: row;
+    justify-content: center;
+    bottom: 0;
+    position: fixed;
 }
 
 .footText {
-    grid-row-start: 2;
-    grid-row-end: 3;
     text-align: center;
+    display: flex;
+    align-items: center;
 }

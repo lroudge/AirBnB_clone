@@ -4,16 +4,8 @@
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
-    position: absolute;
-    vertical-align: middle;
-    margin: 0 auto;
-    display: grid;
-    grid-column-start: 3;
-    grid-column-end: 11;
-    grid-row-start: 2; 
-    grid-row-end: 3;
-    grid-template-columns: 25% 25% 50%;
-    z-index: 9;
+    display: flex;
+    align-items: center;
 }
 
 button {
@@ -24,10 +16,8 @@ button {
     width: 20%;
     border: none;
     border-radius: 4px;
-    vertical-align: middle;
-    right: 30px;
-    position: absolute;
-    top: 10px;
+    margin-right: 30px;
+    margin-left: auto;
 }
 
 button:hover {
@@ -47,18 +37,17 @@ h4 {
     margin: 0 40px;
 }
 
-.locations {
+.filters .locations,
+.filters .amenities {
     height: 100%;
+    width: 25%;
+}
+
+.locations {
     border-right: 1px solid #DDDDDD;
 }
 
-.filters .amenities {
-    height: 100%;
-    grid-column-start: 2;
-}
-
 .popover {
-    display: none;
     background-color: #FAFAFA;
     color: #484848;
     width: 100%;
@@ -66,24 +55,22 @@ h4 {
     border-radius: 4px;
     list-style-type: none;
     padding: 0;
-    grid-row-start: 3;
-}
-
-.popover h2 {
-    display: grid;
+    display: block;
+    visibility: hidden;
+    z-index: 1;
+    position: relative;
 }
 
 .popover li {
     margin: 10px 50px;
-    display: grid;
 }
 
 .locations:hover .popover {
-    display: grid;
-    grid-row-start: 3;
+    display: block;
+    visibility: visible;
 }
 
 .filters .amenities:hover .popover {
-    display: grid;
-    grid-row-start: 3;
+    display: block;
+    visibility: visible;
 }

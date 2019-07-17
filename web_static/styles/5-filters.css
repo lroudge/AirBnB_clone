@@ -4,15 +4,8 @@
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
-    position: absolute;
-    vertical-align: middle;
-    margin: 0 auto;
-    display: grid;
-    grid-column-start: 3;
-    grid-column-end: 11;
-    grid-row-start: 3; 
-    grid-row-end: 6;
-    grid-template-columns: 25% 25% 50%;
+    display: flex;
+    align-items: center;
 }
 
 button {
@@ -23,10 +16,8 @@ button {
     width: 20%;
     border: none;
     border-radius: 4px;
-    vertical-align: middle;
-    right: 30px;
-    position: absolute;
-    top: 10px;
+    margin-right: 30px;
+    margin-left: auto;
 }
 
 button:hover {
@@ -46,12 +37,12 @@ h4 {
     margin: 0 40px;
 }
 
-.locations {
-    height: 100%;
-    border-right: 1px solid #DDDDDD;
-}
-
+.locations,
 .amenities {
     height: 100%;
-    grid-column-start: 2;
+    width: 25%;
+}
+
+.locations {
+    border-right: 1px solid #DDDDDD;
 }

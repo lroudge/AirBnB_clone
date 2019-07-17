@@ -3,16 +3,10 @@ header {
     height: 70px;
     width: 100%;
     border-bottom: 1px solid #CCCCCC;
-    display: grid;
-    grid-column-start: 1;
-    grid-column-end: 13;
-    grid-row-start: 1;
-    grid-row-end: 2;
 }
 
 .logo {
-    background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png');
-    vertical-align: middle;
+    background-image: url('../images/logo.png');
     margin-left: 20px;
     height: 60px;
     width: 140px;
