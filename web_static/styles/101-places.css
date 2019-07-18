@@ -106,18 +106,19 @@
 }
 
 .places .amenities {
-    grid-column: 1 / 5;
     margin-top: 40px;
     text-align: left;
     list-style-type: none;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .places .reviews {
     margin-top: 40px;
     text-align: left;
     list-style-type: none;
+    width: 100%;
 }
 
 .places .amenities h2 {
@@ -125,6 +126,7 @@
     border-bottom: #DDDDDD solid 1px;
     text-align: left;
     padding-bottom: 10px;
+    width: 100%;
 }
 
 .places .reviews h2 {
@@ -132,6 +134,7 @@
     border-bottom: #DDDDDD solid 1px;
     text-align: left;
     padding-bottom: 10px;
+    width: 100%;
 }
 
 .places .amenities ul {
