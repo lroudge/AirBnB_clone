@@ -59,6 +59,7 @@ h4 {
     visibility: hidden;
     z-index: 1;
     position: relative;
+    margin-top: 17px;
 }
 
 .popover li {
