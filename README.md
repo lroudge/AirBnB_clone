@@ -1,9 +1,6 @@
 # AirBnB clone - The console
 
-<p align="center">
-    <img src="https://i.imgur.com/JOhaZ5m.png">
-</p>
-
+![hbnb-screenshot](https://github.com/lroudge/AirBnB_clone/blob/master/img/hbnb_screenshot.png)
 ## Description
 
 This team project is part of the Holberton School Full-Stack Software Engineer program.
